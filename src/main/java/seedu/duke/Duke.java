@@ -18,10 +18,6 @@ public class Duke {
             |   HDB   |
             |  [ ][ ] |
             |_________|
-
-          (•‿•)   <3  (•‿•)
-           /|\\         /|\\
-           / \\         / \\
       Secure the Keys, Secure the Dream
             """;
         System.out.println("Welcome to Fintrack Pro!\n" + logo);
@@ -53,7 +49,7 @@ public class Duke {
         System.out.println("You have " + period.getYears() + " years and " + period.getMonths() + " months remaining.");
 
         System.out.println("\nYou can now type anything you want");
-        System.out.println("Type 'bye' to exit! \n");
+        System.out.println("Type 'bye' to exit!\n");
 
         while (true) {
             String input = in.nextLine();

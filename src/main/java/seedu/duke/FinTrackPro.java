@@ -69,9 +69,15 @@ public class FinTrackPro {
                 break;
             }
             ui.printLine("You said: " + userInput);
+        String userInput = ui.readLine(in, "");
+        while (!userInput.equalsIgnoreCase("bye")) {
+            handleCommand(userInput);
+            userInput = ui.readLine(in, "");
         }
+        ui.goodBye(name);
         in.close();
     }
+
     private void handleCommand(String userInput) {
         if (userInput.trim().isEmpty()) {
             ui.printLine("Cannot process empty description!");

@@ -98,6 +98,9 @@ public class FinTrackPro {
         case "add":
             handleAdd(userInput);
             break;
+        case "delete":
+            handleDelete(userInput);
+            break;
         default:
             ui.printLine("You said: " + userInput);
             break;
@@ -136,6 +139,15 @@ public class FinTrackPro {
 
         ui.printLine("Added expense: $" + amount);
 
+    }
+
+    private void handelDelete(String userInput){
+        String rest = userInput.substring("delete".length()).trim();
+        int index = Integer.parseInt(rest);
+
+        BigDecimal removed = expenseList.delete(index);
+
+        ui.printLine("Deleted expense #" + index + ": $" + removed);
     }
     private void handleSalary(Scanner in) {
         // Show previous input

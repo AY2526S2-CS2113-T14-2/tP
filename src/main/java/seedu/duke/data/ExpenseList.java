@@ -23,4 +23,15 @@ public class ExpenseList {
     public BigDecimal getTotal(){
         return total;
     }
+
+    public boolean isValidIndex(int inputIndex){
+        //returns true if index input is writhin ranfge and false if not
+        return inputIndex >= 1 && inputIndex <= expenses.size();
+    }
+
+    public int size(){
+        //returns size of the List
+        return expenses.size();
+    }
+
 }

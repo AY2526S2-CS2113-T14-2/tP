@@ -3,6 +3,7 @@ package seedu.duke;
 import seedu.duke.ui.Ui;
 import seedu.duke.util.InputUtil;
 import seedu.duke.data.Profile;
+import seedu.duke.data.ExpenseList;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -13,6 +14,7 @@ public class FinTrackPro {
 
     private final Ui ui;
     private final Profile profile = new Profile();
+    private final ExpenseList expenseList = new ExpenseList();
 
     public FinTrackPro(Ui ui) {
         this.ui = ui;
@@ -93,12 +95,24 @@ public class FinTrackPro {
         case "help":
             ui.showHelpMessage();
             break;
+        case "add":
+            handleAdd(userInput);
+            break;
         default:
             ui.printLine("You said: " + userInput);
             break;
         }
     }
 
+    private void handleAdd(String userInput){
+        String rest = userInput.substring("add".length()).trim();
+        BigDecimal amount = new BigDecimal(rest);
+
+        expenseList.add(amount);
+
+        ui.printLine("Added expense: $" + amount);
+
+    }
     private void handleSalary(Scanner in) {
         // Show previous input
         BigDecimal current = profile.getMonthlySalary();

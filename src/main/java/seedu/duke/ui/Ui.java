@@ -41,6 +41,6 @@ public class Ui {
         printLine("'delete' <index in list> - delete the expense in the specified index");
         printLine("'salary' - view and update your monthly salary");
         printLine("'savings' - view and update your total current savings");
-        printLine("'ratio' - view and update your BTO contribution share");
+        printLine("'ratio' - view and update your individual BTO contribution share");
     }
 }

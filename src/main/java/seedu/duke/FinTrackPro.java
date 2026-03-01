@@ -1,8 +1,10 @@
 package seedu.duke;
 
+import seedu.duke.data.Expense;
 import seedu.duke.ui.Ui;
 import seedu.duke.util.InputUtil;
 import seedu.duke.data.Profile;
+import seedu.duke.data.ExpenseList;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -13,6 +15,7 @@ public class FinTrackPro {
 
     private final Ui ui;
     private final Profile profile = new Profile();
+    private final ExpenseList expenseList = new ExpenseList();
 
     public FinTrackPro(Ui ui) {
         this.ui = ui;
@@ -32,13 +35,13 @@ public class FinTrackPro {
 
         // Initial goal setup
         BigDecimal goal = InputUtil.readMoney(ui, in,
-                "What is the total amount that you and your partner have to pay for "
-                        + "the downpayment? (in dollars)");
+                "What is the total value  that you and your partner have to pay for "
+                        + "the house? (in dollars)");
 
-        BigDecimal legalFees = goal.multiply(new BigDecimal("0.025"));
+        BigDecimal legalFees = goal.multiply(new BigDecimal("1.1"));
         BigDecimal totalRequired = goal.add(legalFees);
 
-        ui.printLine("Sweeeett. Including 2.5% legal fees, you will need "
+        ui.printLine("Sweeeett. Including legal fees, you will need "
                 + InputUtil.formatMoney(totalRequired));
 
         // Deadline Handling
@@ -93,12 +96,74 @@ public class FinTrackPro {
         case "help":
             ui.showHelpMessage();
             break;
+        case "add":
+            handleAdd(userInput);
+            break;
+        case "delete":
+            handleDelete(userInput);
+            break;
         default:
             ui.printLine("You said: " + userInput);
             break;
         }
     }
 
+    private void handleAdd(String userInput){
+        String rest = userInput.substring("add".length()).trim();
+        //if there is no input after add
+        if(rest.isEmpty()){
+            ui.printLine("Format: add <value(to 2dp)> bro! where is the MONEHHHH");
+            return;
+        }
+
+        BigDecimal amount;
+
+        try{
+            amount = new BigDecimal(rest);
+        } catch (NumberFormatException e) {
+            ui.printLine("Amount must be a valid number bro! What is this garbage!");
+            return;
+        }
+
+        //Reject negative values
+        if (amount.compareTo(BigDecimal.ZERO) < 0) {
+            ui.printLine("Amount cannot be negative bro who you trying to scam?");
+            return;
+        }
+
+        // Reject >2 decimal places
+        if (amount.scale() > 2) {
+            ui.printLine("Amount must not exceed 2 decimal places bro we dont want your measly cents!");
+            return;
+        }
+
+        expenseList.add(amount);
+
+        ui.printLine("Added expense: $" + amount);
+        ui.printLine("Current Total: $" + expenseList.getTotal());
+
+    }
+
+    private void handleDelete(String userInput){
+        String rest = userInput.substring("delete".length()).trim();
+
+        if (!rest.matches("\\d+")) {
+            ui.printLine("Format: delete <number-on-list> bruh its not that hard");
+            return;
+        }
+
+        int index = Integer.parseInt(rest);
+
+        if (!expenseList.isValidIndex(index)) {
+            ui.printLine("Invalid index bro! do you even know how much you've spent?");
+            return;
+        }
+
+        Expense removed = expenseList.delete(index);
+
+        ui.printLine("Deleted expense #" + index + ": $" + removed.getAmount());
+        ui.printLine("Current Total: $" + expenseList.getTotal());
+    }
     private void handleSalary(Scanner in) {
         // Show previous input
         BigDecimal current = profile.getMonthlySalary();

@@ -185,7 +185,14 @@ public class FinTrackPro {
             ui.printLine((i + 1) + ". " + formattedAmount);
         }
 
+        BigDecimal totalSpent = expenseList.getTotal();
         ui.printLine("Total Expenditure: $" +  expenseList.getTotal());
+
+        BigDecimal goal = profile.getSpendingGoal();
+        if (totalSpent.compareTo(goal) > 0) {
+            ui.printLine("Alert: You've already exceeded this goal by "
+                    + InputUtil.formatMoney(totalSpent.subtract(goal)) + "!");
+        }
     }
 
     private void handleGoal(String userInput) {

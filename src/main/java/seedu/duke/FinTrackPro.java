@@ -190,6 +190,9 @@ public class FinTrackPro {
         case "summary":
             handleSummary();
             break;
+        case "reset":
+            handleReset(in);
+            break;
         default:
             ui.printLine("You said: " + userInput);
             break;
@@ -472,5 +475,35 @@ public class FinTrackPro {
         ui.printLine("Distance to Goal: " + InputUtil.formatMoney(distance));
         ui.printLine("Monthly Surplus: " + InputUtil.formatMoney(monthlySurplus));
         ui.printLine("Estimated Goal Achievement: " + estimate);
+    }
+
+    /**
+     * Completely resets the user profile and expense list after confirmation.
+     * * @param in Scanner used for user confirmation.
+     */
+    private void handleReset(Scanner in) {
+        ui.printLine("WARNING: This will wipe your profile and ALL expenses. Continue? (Y/N)");
+        String response = in.nextLine().trim().toLowerCase();
+
+        if (response.equals("y")) {
+            // 1. Reset in-memory objects
+            profile.setName("friend");
+            profile.setBtoGoal(BigDecimal.ZERO);
+            profile.setMonthlySalary(BigDecimal.ZERO);
+            profile.setCurrentSavings(BigDecimal.ZERO);
+            profile.setSpendingGoal(BigDecimal.ZERO);
+            profile.setContributionRatio(new BigDecimal("0.5"));
+            expenseList.clear();
+
+            // 2. Overwrite the save file with the empty data
+            try {
+                storage.save(profile, expenseList);
+                ui.printLine("System reset successful. Please restart or type 'bye' to exit.");
+            } catch (IOException e) {
+                ui.printLine("Error: Could not reset the save file on disk.");
+            }
+        } else {
+            ui.printLine("Reset aborted. Your data is safe!");
+        }
     }
 }

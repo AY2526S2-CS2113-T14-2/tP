@@ -16,6 +16,16 @@ public class Profile {
     private LocalDate deadline = LocalDate.now();
 
     /**
+     * Initializes a profile with zero Salary/Savings and a default 50/50 split ratio.
+     */
+    public Profile() {
+        this.monthlySalary = BigDecimal.ZERO;
+        this.currentSavings = BigDecimal.ZERO;
+        this.contributionRatio = new BigDecimal("0.5");
+        this.btoGoal = BigDecimal.ZERO;
+    }
+
+    /**
      * Retrieves the target date by which the BTO savings goal should be met.
      *
      * @return The {@code LocalDate} representing the savings deadline.
@@ -33,16 +43,6 @@ public class Profile {
      */
     public void setDeadline(LocalDate deadline) {
         this.deadline = deadline;
-    }
-
-    /**
-     * Initializes a profile with zero Salary/Savings and a default 50/50 split ratio.
-     */
-    public Profile() {
-        this.monthlySalary = BigDecimal.ZERO;
-        this.currentSavings = BigDecimal.ZERO;
-        this.contributionRatio = new BigDecimal("0.5");
-        this.btoGoal = BigDecimal.ZERO;
     }
 
     /**
